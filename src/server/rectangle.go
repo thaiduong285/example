@@ -2,9 +2,8 @@ package main
 
 import (
 	"context"
+	proto "example/src/proto/rectangle"
 	"fmt"
-
-	proto "github.com/user/examples_app/src/proto/rectangle"
 )
 
 func (server *RectangleServiceServer) CalcRectangleArea(ctx context.Context, request *proto.RequestRectangle) (*proto.ResponseRectangleArea, error) {

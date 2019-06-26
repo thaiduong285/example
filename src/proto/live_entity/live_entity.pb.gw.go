@@ -260,9 +260,9 @@ var (
 
 	pattern_LiveService_CreateLiveEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"entities", "live"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_LiveService_UpdateLiveEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"entity", "live", "id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_LiveService_UpdateLiveEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"entities", "live", "id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_LiveService_DeleteLiveEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"entity", "live", "id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_LiveService_DeleteLiveEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"entities", "live", "id"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

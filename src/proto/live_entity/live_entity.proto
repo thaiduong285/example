@@ -49,14 +49,14 @@ service LiveService {
 
     rpc updateLiveEntity(requestUpdateLiveEntity) returns (responseLiveEntity) {
         option (google.api.http) = {
-            put: "/entity/live/{id}",
+            put: "/entities/live/{id}",
             body: "*"
         };
     }
 
     rpc deleteLiveEntity(requestDeleteLiveEntity) returns (responseLiveEntity) {
         option (google.api.http) = {
-            delete: "/entity/live/{id}"
+            delete: "/entities/live/{id}"
         };
     }
 }

@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
+	"example/src/proto/live_entity"
 	"fmt"
 
-	"github.com/user/examples_app/src/proto/live_entity"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -23,10 +24,10 @@ func (server *LiveServiceServer) GetLiveEntity(ctx context.Context, request *liv
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
 	}
-	fmt.Printf("id", id)
+	fmt.Printf("id , %d", id)
 	result := liveEntity.FindOne(ctx, bson.M{"_id": id})
 
-	fmt.Printf("result", result)
+	fmt.Printf("result, %p", result)
 
 	data := LiveEntity{}
 
@@ -54,7 +55,7 @@ func (server *LiveServiceServer) CreateLiveEntity(ctx context.Context, request *
 		Status: "stop",
 	}
 
-	result, err := liveEntity.InsertOne(mongoCtx, data)
+	result, err := liveEntity.InsertOne(ctx, data)
 
 	if err != nil {
 		// return internal gRPC error to be handled later
@@ -78,19 +79,37 @@ func (server *LiveServiceServer) CreateLiveEntity(ctx context.Context, request *
 }
 
 func (server *LiveServiceServer) UpdateLiveEntity(ctx context.Context, request *live_entity.RequestUpdateLiveEntity) (*live_entity.ResponseLiveEntity, error) {
-	// Id, Name, Status := request.GetId(), request.GetName(), request.GetStatus()
+	Id, err := primitive.ObjectIDFromHex(request.GetId())
+	Name, Status := request.GetName(), request.GetStatus()
 
-	// data := LiveEntity{
-	// 	Name, Status,
-	// }
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Could not convert to ObjectId: %v", err))
+	}
 
-	// filter := bson.D{{"id", "name", "status"}}
+	filter := bson.M{"_id": Id}
 
-	// result, err := liveEntity.UpdateOne(ctx.TODO(), filter, data)
+	updateData := bson.M{
+		"name":   Name,
+		"status": Status,
+	}
 
-	// fmt.Println("result update", result)
+	result := liveEntity.FindOneAndUpdate(ctx, filter, bson.M{"$set": updateData}, options.FindOneAndUpdate().SetReturnDocument(1))
 
-	return nil, nil
+	decodeLive := LiveEntity{}
+
+	if err := result.Decode(&decodeLive); err != nil {
+		return nil, status.Errorf(404, fmt.Sprintf("Could not find entity with Object Id %s: %v", request.GetId(), err))
+	}
+
+	dataResponse := &live_entity.ResponseLiveEntity{
+		Entity: &live_entity.LiveEntity{
+			Id:     Id.Hex(),
+			Name:   Name,
+			Status: Status,
+		},
+	}
+
+	return dataResponse, nil
 }
 
 func (server *LiveServiceServer) DeleteLiveEntity(ctx context.Context, request *live_entity.RequestDeleteLiveEntity) (*live_entity.ResponseLiveEntity, error) {

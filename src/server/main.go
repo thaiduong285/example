@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
+	"example/src/proto/live_entity"
+	proto "example/src/proto/rectangle"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 
-	"github.com/user/examples_app/src/proto/live_entity"
-	proto "github.com/user/examples_app/src/proto/rectangle"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"

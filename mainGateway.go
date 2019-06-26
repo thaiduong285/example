@@ -2,15 +2,14 @@ package main
 
 import (
 	"context"
+	"demo_app/proto"
+	"example/src/proto/live_entity"
 	"flag"
 	"fmt"
 	"net/http"
 
-	"github.com/user/examples_app/src/proto/live_entity"
-
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	proto "github.com/user/examples_app/src/proto/rectangle"
 	"google.golang.org/grpc"
 )
 
