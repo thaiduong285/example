@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+message requestRectangle {
+    float width = 1;
+    float height = 2;
+}
+
+message  responseRectangleArea {
+    float area = 1;
+}
+
+message responseRectanglePerimeter {
+    float perimeter = 1;
+}
+
+service RectangleService {
+    rpc calcRectangleArea(requestRectangle) returns (responseRectangleArea) {
+        option (google.api.http) = {
+            post: "/rectangles/area",
+            body: "*"
+        };
+    }
+    
+    rpc calcRectanglePerimeter(requestRectangle) returns (responseRectanglePerimeter) {
+        option (google.api.http) = {
+            post: "/rectangles/perimeter",
+            body: "*"
+        };
+    }
+}

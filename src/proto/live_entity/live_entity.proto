@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package live_entity;
+
+import "google/api/annotations.proto";
+
+message LiveEntity {
+    string id = 1;
+    string name = 2;
+    string status = 3;
+}
+
+message requestGetLiveEntity {
+    string id = 1;
+}
+
+message requestDeleteLiveEntity {
+    string id = 1;
+}
+
+message requestCreateLiveEntity {
+    string name = 1;
+    string status = 2;
+}
+
+message requestUpdateLiveEntity {
+    string id = 1;
+    string name = 2;
+    string status = 3;
+}
+
+message responseLiveEntity {
+    LiveEntity entity = 1;
+}
+
+service LiveService {
+    rpc getLiveEntity(requestGetLiveEntity) returns (responseLiveEntity) {
+        option (google.api.http) = {
+            get: "/entities/live/{id}"
+        };
+    }
+
+    rpc createLiveEntity(requestCreateLiveEntity) returns (responseLiveEntity) {
+        option (google.api.http) = {
+            post: "/entities/live",
+            body: "*"
+        };
+    }
+
+    rpc updateLiveEntity(requestUpdateLiveEntity) returns (responseLiveEntity) {
+        option (google.api.http) = {
+            put: "/entity/live/{id}",
+            body: "*"
+        };
+    }
+
+    rpc deleteLiveEntity(requestDeleteLiveEntity) returns (responseLiveEntity) {
+        option (google.api.http) = {
+            delete: "/entity/live/{id}"
+        };
+    }
+}
